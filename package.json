@@ -1,0 +1,23 @@
+{
+  "name": "devteamup-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KenKot/DevTeamUpBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KenKot/DevTeamUpBackend/issues"
+  },
+  "homepage": "https://github.com/KenKot/DevTeamUpBackend#readme",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
