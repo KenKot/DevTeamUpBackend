@@ -17,6 +17,7 @@ const userAuth = async (req, res, next) => {
     if (!user) throw new Error("userAuth() failed");
 
     req.user = user;
+    console.log("req.user: ", req.user);
     next();
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
