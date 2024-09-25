@@ -1,8 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
 
-const mongoose = require("mongoose");
-
 const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
@@ -17,8 +15,55 @@ const USER_SAFE_DATA = [
   "skills",
 ];
 
-// get all pending connection requests
-userRouter.get("/user/requests/received", userAuth, async (req, res) => {
+userRouter.get("/user/feed", userAuth, async (req, res) => {
+  try {
+    const loggedInUser = req.user;
+
+    const page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    limit = limit >= 50 ? 50 : limit;
+
+    const skip = (page - 1) * limit;
+
+    //people I DON'T want in feed:
+    // user's own card, connections, ignored, already sent connectionRequest
+    const connectionRequests = await ConnectionRequest.find({
+      $or: [
+        {
+          toUserId: loggedInUser,
+        },
+        {
+          fromUserId: loggedInUser,
+        },
+      ],
+    }).select("toUserId fromUserId");
+
+    const usersToHide = new Set();
+
+    connectionRequests.forEach((item) => {
+      usersToHide.add(item.fromUserId.toString());
+      usersToHide.add(item.toUserId.toString());
+    });
+
+    const users = await User.find({
+      $and: [
+        { _id: { $nin: Array.from(usersToHide) } },
+        { _id: { $ne: loggedInUser._id } },
+      ],
+    })
+      .select(USER_SAFE_DATA)
+      .skip(skip)
+      .limit(limit);
+
+    console.log(usersToHide);
+
+    res.json({ message: "Data sent succesfully", data: users });
+  } catch (err) {
+    res.status(400).send("ERROR: " + err.message);
+  }
+});
+
+userRouter.get("/user/requests/receieved", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -29,7 +74,7 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
 
     res.json({ message: "Data sent succesfully", data: connectionRequests });
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    res.status(400).json({ message: err.message });
   }
 });
 
