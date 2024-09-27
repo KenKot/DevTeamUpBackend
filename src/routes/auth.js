@@ -50,7 +50,8 @@ authRouter.post("/login", async (req, res) => {
       // add token to cookie, send it and the response back to user
       // res.cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true })
       res.cookie("token", token);
-      res.send("Login Successful");
+      // res.send("Login Successful");
+      res.send(user);
     } else {
       throw new Error("PW unsuccessful");
     }

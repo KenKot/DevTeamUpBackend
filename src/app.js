@@ -14,6 +14,14 @@ const User = require("./models/user");
 // UTILS
 
 // MIDDLEWARES
+const cors = require("cors");
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(cookieParser());
 
 app.use(express.json()); // converts POST request's JSON body to JS object
