@@ -23,8 +23,11 @@ authRouter.post("/signup", async (req, res) => {
       password: passwordHash,
     });
 
-    await user.save();
-    res.send("user added");
+    const savedUser = await user.save();
+    const token = await savedUser.getJWT();
+
+    res.cookie("token", token);
+    res.json({ message: "Signed up succesfully", data: savedUser });
   } catch (err) {
     res.status(400).send("Error: " + err.message);
   }
@@ -51,7 +54,9 @@ authRouter.post("/login", async (req, res) => {
       // res.cookie('name', 'tobi', { domain: '.example.com', path: '/admin', secure: true })
       res.cookie("token", token);
       // res.send("Login Successful");
-      res.send(user);
+
+      // res.send(user);
+      res.json({ message: "Logged in succesfully", data: user });
     } else {
       throw new Error("PW unsuccessful");
     }

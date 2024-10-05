@@ -63,7 +63,7 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
   }
 });
 
-userRouter.get("/user/requests/receieved", userAuth, async (req, res) => {
+userRouter.get("/user/requests/received", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
@@ -79,7 +79,8 @@ userRouter.get("/user/requests/receieved", userAuth, async (req, res) => {
 });
 
 // get all pending connection requests
-userRouter.get("/user/requests/accepted", userAuth, async (req, res) => {
+// userRouter.get("/user/requests/accepted", userAuth, async (req, res) => {
+userRouter.get("/user/connections", userAuth, async (req, res) => {
   try {
     const loggedInUser = req.user;
 
