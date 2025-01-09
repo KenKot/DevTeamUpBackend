@@ -7,6 +7,8 @@ const { userAuth } = require("../middlewares/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
+const sendEmail = require("../utils/sendEmail");
+
 //move this below /send
 requestsRouter.post(
   "/request/review/:status/:requestId",
@@ -89,6 +91,20 @@ requestsRouter.post(
       });
 
       const data = await connectionRequest.save();
+
+      try {
+        // const testEmail = process.env.EMAIL2;
+        const emailRes = await sendEmail.run(
+          "THE SUBJECT!",
+          "THE BODY!",
+          process.env.EMAIL2
+        );
+        console.log("emailRes: ", emailRes);
+      } catch (error) {
+        console.log("sendEmail.run:", typeof sendEmail.run);
+
+        console.log("!!!: ", error);
+      }
 
       res.json({
         message: `${req.user.firstName} is ${status} in ${toUser.firstName}`,

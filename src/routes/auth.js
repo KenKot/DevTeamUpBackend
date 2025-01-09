@@ -44,7 +44,7 @@ authRouter.post("/login", async (req, res) => {
 
     if (isPasswordValid) {
       // create JWT
-      // const token = await jwt.sign({ _id: user._id }, "TEMPSECRETKEY", {
+      // const token = await jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       //   expiresIn: "1d",
       // });
 

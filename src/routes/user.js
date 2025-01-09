@@ -55,7 +55,7 @@ userRouter.get("/user/feed", userAuth, async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    console.log(usersToHide);
+    // console.log(usersToHide);
 
     res.json({ message: "Data sent succesfully", data: users });
   } catch (err) {

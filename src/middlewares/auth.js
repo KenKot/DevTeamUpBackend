@@ -10,7 +10,7 @@ const userAuth = async (req, res, next) => {
     }
 
     //validate token
-    const decodedObj = await jwt.verify(token, "TEMPSECRETKEY");
+    const decodedObj = await jwt.verify(token, process.env.JWT_SECRET);
     const { _id } = decodedObj;
 
     //find the user
@@ -19,7 +19,7 @@ const userAuth = async (req, res, next) => {
     if (!user) throw new Error("userAuth() failed");
 
     req.user = user;
-    console.log("req.user: ", req.user);
+    // console.log("req.user: ", req.user);
     next();
   } catch (err) {
     res.status(400).send("ERROR: " + err.message);
