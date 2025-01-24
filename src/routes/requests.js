@@ -93,17 +93,13 @@ requestsRouter.post(
       const data = await connectionRequest.save();
 
       try {
-        // const testEmail = process.env.EMAIL2;
         const emailRes = await sendEmail.run(
           "THE SUBJECT!",
           "THE BODY!",
           process.env.EMAIL2
         );
-        console.log("emailRes: ", emailRes);
       } catch (error) {
-        console.log("sendEmail.run:", typeof sendEmail.run);
-
-        console.log("!!!: ", error);
+        console.log("email error: ", error);
       }
 
       res.json({

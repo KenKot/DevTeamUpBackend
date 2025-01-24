@@ -5,6 +5,8 @@ const express = require("express");
 require("./config/database");
 const app = express();
 
+require("./utils/cronjob");
+
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
