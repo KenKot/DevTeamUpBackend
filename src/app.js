@@ -12,9 +12,6 @@ const jwt = require("jsonwebtoken");
 
 // MODELS
 const User = require("./models/user");
-
-// UTILS
-
 // MIDDLEWARES
 const cors = require("cors");
 app.use(
@@ -25,19 +22,26 @@ app.use(
 );
 
 app.use(cookieParser());
-
 app.use(express.json()); // converts POST request's JSON body to JS object
+
+const http = require("http");
+const server = http.createServer(app);
+
+const initSocket = require("./utils/socket");
+initSocket(server);
 
 // ROUTERS
 const authRouter = require("./routes/auth");
 const requestsRouter = require("./routes/requests");
 const profileRouter = require("./routes/profile");
 const userRouter = require("./routes/user");
+const chatRouter = require("./routes/chat");
 
 app.use("/", authRouter);
 app.use("/", requestsRouter);
 app.use("/", profileRouter);
 app.use("/", userRouter);
+app.use("/", chatRouter);
 
 // get user by email
 app.get("/user", async (req, res) => {
@@ -108,7 +112,7 @@ app.patch("/user/:userId", async (req, res) => {
 connectDB()
   .then(() => {
     console.log("DB connection successful");
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log("Server is running on port 3000");
     });
   })
