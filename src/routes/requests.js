@@ -92,15 +92,15 @@ requestsRouter.post(
 
       const data = await connectionRequest.save();
 
-      try {
-        const emailRes = await sendEmail.run(
-          "THE SUBJECT!",
-          "THE BODY!",
-          process.env.EMAIL2
-        );
-      } catch (error) {
-        console.log("email error: ", error);
-      }
+      // try {
+      //   const emailRes = await sendEmail.run(
+      //     "THE SUBJECT!",
+      //     "THE BODY!",
+      //     process.env.EMAIL2
+      //   );
+      // } catch (error) {
+      //   console.log("email error: ", error);
+      // }
 
       res.json({
         message: `${req.user.firstName} is ${status} in ${toUser.firstName}`,
